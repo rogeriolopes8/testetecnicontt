@@ -1,0 +1,69 @@
+PARTE 1 – ANÁLISE CRÍTICA DE REQUISITOS
+❶ Lacunas / ambiguidades (5+ exemplos)
+História: "Como cliente do e-commerce, quero poder cancelar pedidos com facilidade, para evitar transtornos."
+Critérios de aceite:
+Botão “Cancelar pedido” na tela de detalhes do pedido
+Cancelamento só antes do pedido ser entregue
+
+
+  
+1- Ambiguidade e lacunas
+
+Lacuna 1 – O que é “antes da entrega”?
+Pergunta para PO:
+“Quais status de pedido permitem cancelamento? Por exemplo: ‘Aguardando pagamento’, ‘Pagamento aprovado’, ‘Em separação’, ‘Em transporte’, etc. Até qual status o cancelamento é permitido?”
+
+Suposição se não responder:
+Vou assumir que o cancelamento é permitido em todos os status antes de ‘Entregue’, inclusive “Em transporte”. Apenas status exatamente igual a ‘Entregue’ não permite cancelar.
+
+Lacuna 2 – Cancelamento parcial x total
+Pergunta para PO:
+“O cliente cancela o pedido inteiro ou pode cancelar apenas itens específicos do pedido?”
+
+Suposição:
+Vou assumir que o cancelamento é sempre do pedido inteiro (cancelamento total) e que cancelamento parcial não faz parte deste escopo.
+
+
+Lacuna 3 – Reembolso / forma de devolução de dinheiro
+Pergunta para PO:
+“Ao cancelar o pedido, qual é o comportamento esperado para o pagamento? Reembolso automático? Em crédito na loja? Depende do método de pagamento (cartão, PIX, boleto)?”
+
+Suposição:
+Para os testes deste escopo, vou assumir que o comportamento financeiro é tratado em outro serviço; aqui eu só valido se o pedido foi marcado como “Cancelado” e se o botão/regra de cancelamento funcionam.
+
+
+Lacuna 4 – Feedback ao usuário após o cancelamento
+Pergunta para PO:
+“Qual mensagem o usuário deve ver após cancelar? O status do pedido é atualizado em tempo real na tela? Tem e-mail de confirmação?”
+
+Suposição:
+Vou assumir que após o cancelamento:
+o sistema exibe uma mensagem de sucesso (“Pedido cancelado com sucesso”),atualiza o status do pedido para ‘Cancelado’ na tela de detalhes.
+
+Lacuna 5 – Quem pode cancelar o pedido?
+Pergunta para PO:
+“Apenas o dono do pedido pode cancelar? Um atendente no backoffice também pode? Há perfis diferentes (ex.: admin, suporte) com regras distintas?”
+
+Suposição:
+Para o fluxo do e-commerce, vou assumir que apenas o cliente logado, dono daquele pedido, consegue ver o botão e cancelar pelo front.
+
+2- Impacto técnico e de testes
+
+A regra “o cancelamento só pode ser feito antes da entrega” impacta diretamente os testes manuais e automatizados.
+
+ Impactos em testes manuais
+Cenários principais a validar:
+
+a- Pedido em status permitido (“Pagamento aprovado”)
+Verificar se o botão “Cancelar pedido” aparece.
+Ao clicar, o sistema deve:
+alterar o status para Cancelado,
+exibir mensagem de sucesso,
+remover a opção de cancelamento.
+
+b- Pedido já entregue
+O botão não deve ser exibido
+
+c- Mudança de status durante o uso (condição de corrida)
+Se o status mudar para “Entregue” enquanto o usuário está na tela, o back-end deve bloquear o cancelamento.
+Exibir mensagem: “O pedido já foi entregue e não pode mais ser cancelado.”
