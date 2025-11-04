@@ -1,0 +1,470 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<robot generator="Robot 7.3.2 (Python 3.13.7 on win32)" generated="2025-11-03T22:24:04.332235" rpa="false" schemaversion="5">
+<suite id="s1" name="Books Api Tests" source="C:\Users\Rogério\Downloads\Ambev\backend\tests\books_api_tests.robot">
+<kw name="Create Books API Session" type="SETUP">
+<kw name="Create Session" owner="RequestsLibrary">
+<msg time="2025-11-03T22:24:04.480635" level="INFO">Creating Session using : alias=books, url=https://fakerestapi.azurewebsites.net/api/v1, headers={},                     cookies={}, auth=None, timeout=None, proxies=None, verify=False,                     debug=0 </msg>
+<arg>books</arg>
+<arg>${BASE_URL}</arg>
+<doc>Create Session: create a HTTP session to a server</doc>
+<status status="PASS" start="2025-11-03T22:24:04.480387" elapsed="0.000498"/>
+</kw>
+<status status="PASS" start="2025-11-03T22:24:04.479737" elapsed="0.001266"/>
+</kw>
+<test id="s1-t1" name="1. Criar novo book com sucesso via POST /Books" line="48">
+<kw name="Generate Valid Book Payload">
+<kw name="Generate Current ISO Date">
+<kw name="Get Current Date" owner="DateTime">
+<msg time="2025-11-03T22:24:04.482519" level="INFO">${now} = 2025-11-03T22:24:04.000Z</msg>
+<var>${now}</var>
+<arg>result_format=%Y-%m-%dT%H:%M:%S.000Z</arg>
+<doc>Returns current local or UTC time with an optional increment.</doc>
+<status status="PASS" start="2025-11-03T22:24:04.482250" elapsed="0.000308"/>
+</kw>
+<return>
+<value>${now}</value>
+<status status="PASS" start="2025-11-03T22:24:04.482631" elapsed="0.000057"/>
+</return>
+<msg time="2025-11-03T22:24:04.482846" level="INFO">${publishDate} = 2025-11-03T22:24:04.000Z</msg>
+<var>${publishDate}</var>
+<status status="PASS" start="2025-11-03T22:24:04.482028" elapsed="0.000845"/>
+</kw>
+<kw name="Create Dictionary" owner="BuiltIn">
+<msg time="2025-11-03T22:24:04.483433" level="INFO">&amp;{payload} = { id=0 | title=Test Automation Advanced | description=Book created via automated test | pageCount=450 | excerpt=Automation Book | publishDate=2025-11-03T22:24:04.000Z }</msg>
+<var>&amp;{payload}</var>
+<arg>id=0</arg>
+<arg>title=Test Automation Advanced</arg>
+<arg>description=Book created via automated test</arg>
+<arg>pageCount=450</arg>
+<arg>excerpt=Automation Book</arg>
+<arg>publishDate=${publishDate}</arg>
+<doc>Creates and returns a dictionary based on the given ``items``.</doc>
+<status status="PASS" start="2025-11-03T22:24:04.482993" elapsed="0.000476"/>
+</kw>
+<return>
+<value>&amp;{payload}</value>
+<status status="PASS" start="2025-11-03T22:24:04.483548" elapsed="0.000041"/>
+</return>
+<msg time="2025-11-03T22:24:04.483781" level="INFO">&amp;{payload} = { id=0 | title=Test Automation Advanced | description=Book created via automated test | pageCount=450 | excerpt=Automation Book | publishDate=2025-11-03T22:24:04.000Z }</msg>
+<var>&amp;{payload}</var>
+<status status="PASS" start="2025-11-03T22:24:04.481724" elapsed="0.002085"/>
+</kw>
+<kw name="POST On Session" owner="RequestsLibrary">
+<msg time="2025-11-03T22:24:05.547230" level="INFO">POST Request : url=https://fakerestapi.azurewebsites.net/api/v1/Books 
+ path_url=/api/v1/Books 
+ headers={'User-Agent': 'python-requests/2.32.5', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive', 'Content-Length': '191', 'Content-Type': 'application/json'} 
+ body=b'{"id": "0", "title": "Test Automation Advanced", "description": "Book created via automated test", "pageCount": "450", "excerpt": "Automation Book", "publishDate": "2025-11-03T22:24:04.000Z"}' 
+ </msg>
+<msg time="2025-11-03T22:24:05.547373" level="INFO">POST Response : url=https://fakerestapi.azurewebsites.net/api/v1/Books 
+ status=200, reason=OK 
+ headers={'Content-Type': 'application/json; charset=utf-8; v=1.0', 'Date': 'Tue, 04 Nov 2025 01:24:05 GMT', 'Server': 'Kestrel', 'Transfer-Encoding': 'chunked', 'api-supported-versions': '1.0'} 
+ body={"id":0,"title":"Test Automation Advanced","description":"Book created via automated test","pageCount":450,"excerpt":"Automation Book","publishDate":"2025-11-03T22:24:04Z"} 
+ </msg>
+<msg time="2025-11-03T22:24:05.547469" level="INFO">C:\Users\Rogério\AppData\Local\Programs\Python\Python313\Lib\site-packages\urllib3\connectionpool.py:1097: InsecureRequestWarning: Unverified HTTPS request is being made to host 'fakerestapi.azurewebsites.net'. Adding certificate verification is strongly advised. See: https://urllib3.readthedocs.io/en/latest/advanced-usage.html#tls-warnings
+  warnings.warn(</msg>
+<msg time="2025-11-03T22:24:05.547670" level="INFO">${response} = &lt;Response [200]&gt;</msg>
+<var>${response}</var>
+<arg>books</arg>
+<arg>/Books</arg>
+<arg>json=${payload}</arg>
+<doc>Sends a POST request on a previously created HTTP Session.</doc>
+<status status="PASS" start="2025-11-03T22:24:04.483933" elapsed="1.063775"/>
+</kw>
+<kw name="Should Be Equal As Integers" owner="BuiltIn">
+<msg time="2025-11-03T22:24:05.548562" level="INFO">Argument types are:
+&lt;class 'int'&gt;
+&lt;class 'str'&gt;</msg>
+<arg>${response.status_code}</arg>
+<arg>200</arg>
+<doc>Fails if objects are unequal after converting them to integers.</doc>
+<status status="PASS" start="2025-11-03T22:24:05.547913" elapsed="0.000745"/>
+</kw>
+<kw name="To Json" owner="RequestsLibrary">
+<msg time="2025-11-03T22:24:05.548859" level="WARN">Keyword 'RequestsLibrary.To Json' is deprecated. Please use ${resp.json()} instead. Have a look at the improved HTML output as pretty printing replacement.</msg>
+<msg time="2025-11-03T22:24:05.549626" level="INFO">To JSON using : content={"id":0,"title":"Test Automation Advanced","description":"Book created via automated test","pageCount":450,"excerpt":"Automation Book","publishDate":"2025-11-03T22:24:04Z"} </msg>
+<msg time="2025-11-03T22:24:05.549687" level="INFO">To JSON using : pretty_print=False </msg>
+<msg time="2025-11-03T22:24:05.549827" level="INFO">${body} = {'id': 0, 'title': 'Test Automation Advanced', 'description': 'Book created via automated test', 'pageCount': 450, 'excerpt': 'Automation Book', 'publishDate': '2025-11-03T22:24:04Z'}</msg>
+<var>${body}</var>
+<arg>${response.content}</arg>
+<doc>*DEPRECATED* Please use ${resp.json()} instead. Have a look at the improved HTML output as pretty printing replacement.</doc>
+<status status="PASS" start="2025-11-03T22:24:05.548822" elapsed="0.001040"/>
+</kw>
+<kw name="Log To Console" owner="BuiltIn">
+<arg>\n[INFO] Resposta da criação: ${body}</arg>
+<doc>Logs the given message to the console.</doc>
+<status status="PASS" start="2025-11-03T22:24:05.550053" elapsed="0.000306"/>
+</kw>
+<kw name="Should Be Equal As Strings" owner="BuiltIn">
+<arg>${body['title']}</arg>
+<arg>${payload['title']}</arg>
+<doc>Fails if objects are unequal after converting them to strings.</doc>
+<status status="PASS" start="2025-11-03T22:24:05.550511" elapsed="0.001001"/>
+</kw>
+<kw name="Should Be Equal As Strings" owner="BuiltIn">
+<arg>${body['description']}</arg>
+<arg>${payload['description']}</arg>
+<doc>Fails if objects are unequal after converting them to strings.</doc>
+<status status="PASS" start="2025-11-03T22:24:05.551668" elapsed="0.000754"/>
+</kw>
+<kw name="Should Be Equal As Integers" owner="BuiltIn">
+<msg time="2025-11-03T22:24:05.553365" level="INFO">Argument types are:
+&lt;class 'int'&gt;
+&lt;class 'str'&gt;</msg>
+<arg>${body['pageCount']}</arg>
+<arg>${payload['pageCount']}</arg>
+<doc>Fails if objects are unequal after converting them to integers.</doc>
+<status status="PASS" start="2025-11-03T22:24:05.552552" elapsed="0.000892"/>
+</kw>
+<kw name="Set Suite Variable" owner="BuiltIn">
+<msg time="2025-11-03T22:24:05.554184" level="INFO">${BOOK_ID} = 0</msg>
+<arg>${BOOK_ID}</arg>
+<arg>${body['id']}</arg>
+<doc>Makes a variable available everywhere within the scope of the current suite.</doc>
+<status status="PASS" start="2025-11-03T22:24:05.553610" elapsed="0.000637"/>
+</kw>
+<doc>Cria um novo book com payload válido e valida o retorno.</doc>
+<status status="PASS" start="2025-11-03T22:24:04.481085" elapsed="1.073293"/>
+</test>
+<test id="s1-t2" name="2. Validar book existente via GET /Books/1" line="62">
+<kw name="GET On Session" owner="RequestsLibrary">
+<msg time="2025-11-03T22:24:05.858258" level="INFO">GET Request : url=https://fakerestapi.azurewebsites.net/api/v1/Books/1 
+ path_url=/api/v1/Books/1 
+ headers={'User-Agent': 'python-requests/2.32.5', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive'} 
+ body=None 
+ </msg>
+<msg time="2025-11-03T22:24:05.858462" level="INFO">GET Response : url=https://fakerestapi.azurewebsites.net/api/v1/Books/1 
+ status=200, reason=OK 
+ headers={'Content-Type': 'application/json; charset=utf-8; v=1.0', 'Date': 'Tue, 04 Nov 2025 01:24:05 GMT', 'Server': 'Kestrel', 'Transfer-Encoding': 'chunked', 'api-supported-versions': '1.0'} 
+ body={"id":1,"title":"Book 1","description":"Lorem lorem lorem. Lorem lorem lorem. Lorem lorem lorem.\n","pageCount":100,"excerpt":"Lorem lorem lorem. Lorem lorem lorem. Lorem lorem lorem.\nLorem lorem lorem. Lorem lorem lorem. Lorem lorem lorem.\nLorem lorem lorem. Lorem lorem lorem. Lorem lorem lorem.\nLorem lorem lorem. Lorem lorem lorem. Lorem lorem lorem.\nLorem lorem lorem. Lorem lorem lorem. Lorem lorem lorem.\n","publishDate":"2025-11-03T01:24:05.6219428+00:00"} 
+ </msg>
+<msg time="2025-11-03T22:24:05.858652" level="INFO">C:\Users\Rogério\AppData\Local\Programs\Python\Python313\Lib\site-packages\urllib3\connectionpool.py:1097: InsecureRequestWarning: Unverified HTTPS request is being made to host 'fakerestapi.azurewebsites.net'. Adding certificate verification is strongly advised. See: https://urllib3.readthedocs.io/en/latest/advanced-usage.html#tls-warnings
+  warnings.warn(</msg>
+<msg time="2025-11-03T22:24:05.859024" level="INFO">${response} = &lt;Response [200]&gt;</msg>
+<var>${response}</var>
+<arg>books</arg>
+<arg>/Books/1</arg>
+<doc>Sends a GET request on a previously created HTTP Session.</doc>
+<status status="PASS" start="2025-11-03T22:24:05.555275" elapsed="0.303832"/>
+</kw>
+<kw name="Should Be Equal As Integers" owner="BuiltIn">
+<msg time="2025-11-03T22:24:05.860665" level="INFO">Argument types are:
+&lt;class 'int'&gt;
+&lt;class 'str'&gt;</msg>
+<arg>${response.status_code}</arg>
+<arg>200</arg>
+<doc>Fails if objects are unequal after converting them to integers.</doc>
+<status status="PASS" start="2025-11-03T22:24:05.859467" elapsed="0.001366"/>
+</kw>
+<kw name="To Json" owner="RequestsLibrary">
+<msg time="2025-11-03T22:24:05.861222" level="WARN">Keyword 'RequestsLibrary.To Json' is deprecated. Please use ${resp.json()} instead. Have a look at the improved HTML output as pretty printing replacement.</msg>
+<msg time="2025-11-03T22:24:05.862719" level="INFO">To JSON using : content={"id":1,"title":"Book 1","description":"Lorem lorem lorem. Lorem lorem lorem. Lorem lorem lorem.\n","pageCount":100,"excerpt":"Lorem lorem lorem. Lorem lorem lorem. Lorem lorem lorem.\nLorem lorem lorem. Lorem lorem lorem. Lorem lorem lorem.\nLorem lorem lorem. Lorem lorem lorem. Lorem lorem lorem.\nLorem lorem lorem. Lorem lorem lorem. Lorem lorem lorem.\nLorem lorem lorem. Lorem lorem lorem. Lorem lorem lorem.\n","publishDate":"2025-11-03T01:24:05.6219428+00:00"} </msg>
+<msg time="2025-11-03T22:24:05.862781" level="INFO">To JSON using : pretty_print=False </msg>
+<msg time="2025-11-03T22:24:05.862920" level="INFO">${body} = {'id': 1, 'title': 'Book 1', 'description': 'Lorem lorem lorem. Lorem lorem lorem. Lorem lorem lorem.\n', 'pageCount': 100, 'excerpt': 'Lorem lorem lorem. Lorem lorem lorem. Lorem lorem lorem.\nLorem ...</msg>
+<var>${body}</var>
+<arg>${response.content}</arg>
+<doc>*DEPRECATED* Please use ${resp.json()} instead. Have a look at the improved HTML output as pretty printing replacement.</doc>
+<status status="PASS" start="2025-11-03T22:24:05.861150" elapsed="0.001808"/>
+</kw>
+<kw name="Log To Console" owner="BuiltIn">
+<arg>\n[INFO] Book ID 1: ${body}</arg>
+<doc>Logs the given message to the console.</doc>
+<status status="PASS" start="2025-11-03T22:24:05.863161" elapsed="0.000321"/>
+</kw>
+<kw name="Should Be Equal As Integers" owner="BuiltIn">
+<msg time="2025-11-03T22:24:05.864202" level="INFO">Argument types are:
+&lt;class 'int'&gt;
+&lt;class 'str'&gt;</msg>
+<arg>${body['id']}</arg>
+<arg>1</arg>
+<doc>Fails if objects are unequal after converting them to integers.</doc>
+<status status="PASS" start="2025-11-03T22:24:05.863638" elapsed="0.000645"/>
+</kw>
+<kw name="Should Not Be Empty" owner="BuiltIn">
+<msg time="2025-11-03T22:24:05.864829" level="INFO">Length is 6.</msg>
+<arg>${body['title']}</arg>
+<doc>Verifies that the given item is not empty.</doc>
+<status status="PASS" start="2025-11-03T22:24:05.864416" elapsed="0.000463"/>
+</kw>
+<kw name="Should Not Be Empty" owner="BuiltIn">
+<msg time="2025-11-03T22:24:05.865333" level="INFO">Length is 57.</msg>
+<arg>${body['description']}</arg>
+<doc>Verifies that the given item is not empty.</doc>
+<status status="PASS" start="2025-11-03T22:24:05.864979" elapsed="0.000398"/>
+</kw>
+<doc>Recupera um book existente (ID 1) e valida alguns campos.</doc>
+<status status="PASS" start="2025-11-03T22:24:05.554639" elapsed="0.310849"/>
+</test>
+<test id="s1-t3" name="3. Atualizar book existente via PUT /Books/1" line="73">
+<kw name="GET On Session" owner="RequestsLibrary">
+<msg time="2025-11-03T22:24:06.167089" level="INFO">GET Request : url=https://fakerestapi.azurewebsites.net/api/v1/Books/1 
+ path_url=/api/v1/Books/1 
+ headers={'User-Agent': 'python-requests/2.32.5', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive'} 
+ body=None 
+ </msg>
+<msg time="2025-11-03T22:24:06.167178" level="INFO">GET Response : url=https://fakerestapi.azurewebsites.net/api/v1/Books/1 
+ status=200, reason=OK 
+ headers={'Content-Type': 'application/json; charset=utf-8; v=1.0', 'Date': 'Tue, 04 Nov 2025 01:24:05 GMT', 'Server': 'Kestrel', 'Transfer-Encoding': 'chunked', 'api-supported-versions': '1.0'} 
+ body={"id":1,"title":"Book 1","description":"Lorem lorem lorem. Lorem lorem lorem. Lorem lorem lorem.\n","pageCount":100,"excerpt":"Lorem lorem lorem. Lorem lorem lorem. Lorem lorem lorem.\nLorem lorem lorem. Lorem lorem lorem. Lorem lorem lorem.\nLorem lorem lorem. Lorem lorem lorem. Lorem lorem lorem.\nLorem lorem lorem. Lorem lorem lorem. Lorem lorem lorem.\nLorem lorem lorem. Lorem lorem lorem. Lorem lorem lorem.\n","publishDate":"2025-11-03T01:24:05.9456502+00:00"} 
+ </msg>
+<msg time="2025-11-03T22:24:06.167249" level="INFO">C:\Users\Rogério\AppData\Local\Programs\Python\Python313\Lib\site-packages\urllib3\connectionpool.py:1097: InsecureRequestWarning: Unverified HTTPS request is being made to host 'fakerestapi.azurewebsites.net'. Adding certificate verification is strongly advised. See: https://urllib3.readthedocs.io/en/latest/advanced-usage.html#tls-warnings
+  warnings.warn(</msg>
+<msg time="2025-11-03T22:24:06.167414" level="INFO">${get_resp} = &lt;Response [200]&gt;</msg>
+<var>${get_resp}</var>
+<arg>books</arg>
+<arg>/Books/1</arg>
+<doc>Sends a GET request on a previously created HTTP Session.</doc>
+<status status="PASS" start="2025-11-03T22:24:05.866116" elapsed="0.301326"/>
+</kw>
+<kw name="Should Be Equal As Integers" owner="BuiltIn">
+<msg time="2025-11-03T22:24:06.168188" level="INFO">Argument types are:
+&lt;class 'int'&gt;
+&lt;class 'str'&gt;</msg>
+<arg>${get_resp.status_code}</arg>
+<arg>200</arg>
+<doc>Fails if objects are unequal after converting them to integers.</doc>
+<status status="PASS" start="2025-11-03T22:24:06.167614" elapsed="0.000682"/>
+</kw>
+<kw name="To Json" owner="RequestsLibrary">
+<msg time="2025-11-03T22:24:06.168614" level="WARN">Keyword 'RequestsLibrary.To Json' is deprecated. Please use ${resp.json()} instead. Have a look at the improved HTML output as pretty printing replacement.</msg>
+<msg time="2025-11-03T22:24:06.169596" level="INFO">To JSON using : content={"id":1,"title":"Book 1","description":"Lorem lorem lorem. Lorem lorem lorem. Lorem lorem lorem.\n","pageCount":100,"excerpt":"Lorem lorem lorem. Lorem lorem lorem. Lorem lorem lorem.\nLorem lorem lorem. Lorem lorem lorem. Lorem lorem lorem.\nLorem lorem lorem. Lorem lorem lorem. Lorem lorem lorem.\nLorem lorem lorem. Lorem lorem lorem. Lorem lorem lorem.\nLorem lorem lorem. Lorem lorem lorem. Lorem lorem lorem.\n","publishDate":"2025-11-03T01:24:05.9456502+00:00"} </msg>
+<msg time="2025-11-03T22:24:06.169874" level="INFO">To JSON using : pretty_print=False </msg>
+<msg time="2025-11-03T22:24:06.170150" level="INFO">${book} = {'id': 1, 'title': 'Book 1', 'description': 'Lorem lorem lorem. Lorem lorem lorem. Lorem lorem lorem.\n', 'pageCount': 100, 'excerpt': 'Lorem lorem lorem. Lorem lorem lorem. Lorem lorem lorem.\nLorem ...</msg>
+<var>${book}</var>
+<arg>${get_resp.content}</arg>
+<doc>*DEPRECATED* Please use ${resp.json()} instead. Have a look at the improved HTML output as pretty printing replacement.</doc>
+<status status="PASS" start="2025-11-03T22:24:06.168542" elapsed="0.001677"/>
+</kw>
+<kw name="Set Variable" owner="BuiltIn">
+<msg time="2025-11-03T22:24:06.170769" level="INFO">${new_title} = Updated Title via PUT</msg>
+<var>${new_title}</var>
+<arg>Updated Title via PUT</arg>
+<doc>Returns the given values which can then be assigned to a variables.</doc>
+<status status="PASS" start="2025-11-03T22:24:06.170456" elapsed="0.000368"/>
+</kw>
+<kw name="Set To Dictionary" owner="Collections">
+<arg>${book}</arg>
+<arg>title=${new_title}</arg>
+<doc>Adds the given ``key_value_pairs`` and/or ``items`` to the ``dictionary``.</doc>
+<status status="PASS" start="2025-11-03T22:24:06.171046" elapsed="0.000402"/>
+</kw>
+<kw name="PUT On Session" owner="RequestsLibrary">
+<msg time="2025-11-03T22:24:06.415861" level="INFO">PUT Request : url=https://fakerestapi.azurewebsites.net/api/v1/Books/1 
+ path_url=/api/v1/Books/1 
+ headers={'User-Agent': 'python-requests/2.32.5', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive', 'Content-Length': '495', 'Content-Type': 'application/json'} 
+ body=b'{"id": 1, "title": "Updated Title via PUT", "description": "Lorem lorem lorem. Lorem lorem lorem. Lorem lorem lorem.\\n", "pageCount": 100, "excerpt": "Lorem lorem lorem. Lorem lorem lorem. Lorem lorem lorem.\\nLorem lorem lorem. Lorem lorem lorem. Lorem lorem lorem.\\nLorem lorem lorem. Lorem lorem lorem. Lorem lorem lorem.\\nLorem lorem lorem. Lorem lorem lorem. Lorem lorem lorem.\\nLorem lorem lorem. Lorem lorem lorem. Lorem lorem lorem.\\n", "publishDate": "2025-11-03T01:24:05.9456502+00:00"}' 
+ </msg>
+<msg time="2025-11-03T22:24:06.416048" level="INFO">PUT Response : url=https://fakerestapi.azurewebsites.net/api/v1/Books/1 
+ status=200, reason=OK 
+ headers={'Content-Type': 'application/json; charset=utf-8; v=1.0', 'Date': 'Tue, 04 Nov 2025 01:24:05 GMT', 'Server': 'Kestrel', 'Transfer-Encoding': 'chunked', 'api-supported-versions': '1.0'} 
+ body={"id":1,"title":"Updated Title via PUT","description":"Lorem lorem lorem. Lorem lorem lorem. Lorem lorem lorem.\n","pageCount":100,"excerpt":"Lorem lorem lorem. Lorem lorem lorem. Lorem lorem lorem.\nLorem lorem lorem. Lorem lorem lorem. Lorem lorem lorem.\nLorem lorem lorem. Lorem lorem lorem. Lorem lorem lorem.\nLorem lorem lorem. Lorem lorem lorem. Lorem lorem lorem.\nLorem lorem lorem. Lorem lorem lorem. Lorem lorem lorem.\n","publishDate":"2025-11-03T01:24:05.9456502+00:00"} 
+ </msg>
+<msg time="2025-11-03T22:24:06.416204" level="INFO">C:\Users\Rogério\AppData\Local\Programs\Python\Python313\Lib\site-packages\urllib3\connectionpool.py:1097: InsecureRequestWarning: Unverified HTTPS request is being made to host 'fakerestapi.azurewebsites.net'. Adding certificate verification is strongly advised. See: https://urllib3.readthedocs.io/en/latest/advanced-usage.html#tls-warnings
+  warnings.warn(</msg>
+<msg time="2025-11-03T22:24:06.416549" level="INFO">${put_resp} = &lt;Response [200]&gt;</msg>
+<var>${put_resp}</var>
+<arg>books</arg>
+<arg>/Books/1</arg>
+<arg>json=${book}</arg>
+<doc>Sends a PUT request on a previously created HTTP Session.</doc>
+<status status="PASS" start="2025-11-03T22:24:06.171710" elapsed="0.244912"/>
+</kw>
+<kw name="Should Be Equal As Integers" owner="BuiltIn">
+<msg time="2025-11-03T22:24:06.418297" level="INFO">Argument types are:
+&lt;class 'int'&gt;
+&lt;class 'str'&gt;</msg>
+<arg>${put_resp.status_code}</arg>
+<arg>200</arg>
+<doc>Fails if objects are unequal after converting them to integers.</doc>
+<status status="PASS" start="2025-11-03T22:24:06.417124" elapsed="0.001323"/>
+</kw>
+<kw name="To Json" owner="RequestsLibrary">
+<msg time="2025-11-03T22:24:06.418793" level="WARN">Keyword 'RequestsLibrary.To Json' is deprecated. Please use ${resp.json()} instead. Have a look at the improved HTML output as pretty printing replacement.</msg>
+<msg time="2025-11-03T22:24:06.419990" level="INFO">To JSON using : content={"id":1,"title":"Updated Title via PUT","description":"Lorem lorem lorem. Lorem lorem lorem. Lorem lorem lorem.\n","pageCount":100,"excerpt":"Lorem lorem lorem. Lorem lorem lorem. Lorem lorem lorem.\nLorem lorem lorem. Lorem lorem lorem. Lorem lorem lorem.\nLorem lorem lorem. Lorem lorem lorem. Lorem lorem lorem.\nLorem lorem lorem. Lorem lorem lorem. Lorem lorem lorem.\nLorem lorem lorem. Lorem lorem lorem. Lorem lorem lorem.\n","publishDate":"2025-11-03T01:24:05.9456502+00:00"} </msg>
+<msg time="2025-11-03T22:24:06.420071" level="INFO">To JSON using : pretty_print=False </msg>
+<msg time="2025-11-03T22:24:06.420270" level="INFO">${body_put} = {'id': 1, 'title': 'Updated Title via PUT', 'description': 'Lorem lorem lorem. Lorem lorem lorem. Lorem lorem lorem.\n', 'pageCount': 100, 'excerpt': 'Lorem lorem lorem. Lorem lorem lorem. Lorem lorem...</msg>
+<var>${body_put}</var>
+<arg>${put_resp.content}</arg>
+<doc>*DEPRECATED* Please use ${resp.json()} instead. Have a look at the improved HTML output as pretty printing replacement.</doc>
+<status status="PASS" start="2025-11-03T22:24:06.418734" elapsed="0.001598"/>
+</kw>
+<kw name="Log To Console" owner="BuiltIn">
+<arg>\n[INFO] Book atualizado: ${body_put}</arg>
+<doc>Logs the given message to the console.</doc>
+<status status="PASS" start="2025-11-03T22:24:06.420611" elapsed="0.000493"/>
+</kw>
+<kw name="Should Be Equal As Strings" owner="BuiltIn">
+<arg>${body_put['title']}</arg>
+<arg>${new_title}</arg>
+<doc>Fails if objects are unequal after converting them to strings.</doc>
+<status status="PASS" start="2025-11-03T22:24:06.421366" elapsed="0.001147"/>
+</kw>
+<doc>Atualiza o título de um book existente usando PUT.</doc>
+<status status="PASS" start="2025-11-03T22:24:05.865726" elapsed="0.557043"/>
+</test>
+<test id="s1-t4" name="4. Deletar ID inexistente deve retornar 404 (comportamento incorreto documentado)" line="88">
+<kw name="Set Variable" owner="BuiltIn">
+<msg time="2025-11-03T22:24:06.424447" level="INFO">${invalid_id} = 0</msg>
+<var>${invalid_id}</var>
+<arg>0</arg>
+<doc>Returns the given values which can then be assigned to a variables.</doc>
+<status status="PASS" start="2025-11-03T22:24:06.424110" elapsed="0.000408"/>
+</kw>
+<kw name="DELETE On Session" owner="RequestsLibrary">
+<msg time="2025-11-03T22:24:06.653295" level="INFO">DELETE Request : url=https://fakerestapi.azurewebsites.net/api/v1/Books/0 
+ path_url=/api/v1/Books/0 
+ headers={'User-Agent': 'python-requests/2.32.5', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive', 'Content-Length': '0'} 
+ body=None 
+ </msg>
+<msg time="2025-11-03T22:24:06.653469" level="INFO">DELETE Response : url=https://fakerestapi.azurewebsites.net/api/v1/Books/0 
+ status=200, reason=OK 
+ headers={'Content-Length': '0', 'Date': 'Tue, 04 Nov 2025 01:24:06 GMT', 'Server': 'Kestrel', 'api-supported-versions': '1.0'} 
+ body=None 
+ </msg>
+<msg time="2025-11-03T22:24:06.653660" level="INFO">C:\Users\Rogério\AppData\Local\Programs\Python\Python313\Lib\site-packages\urllib3\connectionpool.py:1097: InsecureRequestWarning: Unverified HTTPS request is being made to host 'fakerestapi.azurewebsites.net'. Adding certificate verification is strongly advised. See: https://urllib3.readthedocs.io/en/latest/advanced-usage.html#tls-warnings
+  warnings.warn(</msg>
+<msg time="2025-11-03T22:24:06.654019" level="INFO">${response} = &lt;Response [200]&gt;</msg>
+<var>${response}</var>
+<arg>books</arg>
+<arg>/Books/${invalid_id}</arg>
+<doc>Sends a DELETE request on a previously created HTTP Session.</doc>
+<status status="PASS" start="2025-11-03T22:24:06.424777" elapsed="0.229321"/>
+</kw>
+<kw name="Log To Console" owner="BuiltIn">
+<arg>\n[INFO] DELETE /Books/${invalid_id} - Status: ${response.status_code}</arg>
+<doc>Logs the given message to the console.</doc>
+<status status="PASS" start="2025-11-03T22:24:06.654560" elapsed="0.001425"/>
+</kw>
+<kw name="Run Keyword And Continue On Failure" owner="BuiltIn">
+<kw name="Should Be Equal As Integers" owner="BuiltIn">
+<msg time="2025-11-03T22:24:06.657826" level="INFO">Argument types are:
+&lt;class 'int'&gt;
+&lt;class 'str'&gt;</msg>
+<arg>${response.status_code}</arg>
+<arg>200</arg>
+<doc>Fails if objects are unequal after converting them to integers.</doc>
+<status status="PASS" start="2025-11-03T22:24:06.656695" elapsed="0.001303"/>
+</kw>
+<arg>Should Be Equal As Integers</arg>
+<arg>${response.status_code}</arg>
+<arg>200</arg>
+<doc>Runs the keyword and continues execution even if a failure occurs.</doc>
+<status status="PASS" start="2025-11-03T22:24:06.656326" elapsed="0.001842"/>
+</kw>
+<if>
+<branch type="IF" condition="${response.status_code} == 200">
+<kw name="Log To Console" owner="BuiltIn">
+<arg>\n[WARN] A API não valida corretamente a exclusão de ID inexistente.</arg>
+<doc>Logs the given message to the console.</doc>
+<status status="PASS" start="2025-11-03T22:24:06.659747" elapsed="0.000412"/>
+</kw>
+<status status="PASS" start="2025-11-03T22:24:06.658448" elapsed="0.001833"/>
+</branch>
+<status status="PASS" start="2025-11-03T22:24:06.658366" elapsed="0.002010"/>
+</if>
+<doc>A API deveria retornar 404, mas retorna 200 mesmo para IDs inexistentes.</doc>
+<status status="PASS" start="2025-11-03T22:24:06.423243" elapsed="0.237411"/>
+</test>
+<test id="s1-t5" name="5. Criar book inválido (PageCount = -5) evidencia ausência de validação server-side" line="98">
+<kw name="Generate Invalid Book Payload">
+<kw name="Generate Current ISO Date">
+<kw name="Get Current Date" owner="DateTime">
+<msg time="2025-11-03T22:24:06.664245" level="INFO">${now} = 2025-11-03T22:24:06.000Z</msg>
+<var>${now}</var>
+<arg>result_format=%Y-%m-%dT%H:%M:%S.000Z</arg>
+<doc>Returns current local or UTC time with an optional increment.</doc>
+<status status="PASS" start="2025-11-03T22:24:06.663607" elapsed="0.000734"/>
+</kw>
+<return>
+<value>${now}</value>
+<status status="PASS" start="2025-11-03T22:24:06.664500" elapsed="0.000093"/>
+</return>
+<msg time="2025-11-03T22:24:06.664947" level="INFO">${publishDate} = 2025-11-03T22:24:06.000Z</msg>
+<var>${publishDate}</var>
+<status status="PASS" start="2025-11-03T22:24:06.663056" elapsed="0.001964"/>
+</kw>
+<kw name="Create Dictionary" owner="BuiltIn">
+<msg time="2025-11-03T22:24:06.665543" level="INFO">&amp;{payload} = { id=0 | title=Invalid Book | description=Book with negative page count | pageCount=-5 | excerpt=Automation Book | publishDate=2025-11-03T22:24:06.000Z }</msg>
+<var>&amp;{payload}</var>
+<arg>id=0</arg>
+<arg>title=Invalid Book</arg>
+<arg>description=Book with negative page count</arg>
+<arg>pageCount=-5</arg>
+<arg>excerpt=Automation Book</arg>
+<arg>publishDate=${publishDate}</arg>
+<doc>Creates and returns a dictionary based on the given ``items``.</doc>
+<status status="PASS" start="2025-11-03T22:24:06.665202" elapsed="0.000370"/>
+</kw>
+<return>
+<value>&amp;{payload}</value>
+<status status="PASS" start="2025-11-03T22:24:06.665635" elapsed="0.000025"/>
+</return>
+<msg time="2025-11-03T22:24:06.665826" level="INFO">&amp;{payload} = { id=0 | title=Invalid Book | description=Book with negative page count | pageCount=-5 | excerpt=Automation Book | publishDate=2025-11-03T22:24:06.000Z }</msg>
+<var>&amp;{payload}</var>
+<status status="PASS" start="2025-11-03T22:24:06.662394" elapsed="0.003459"/>
+</kw>
+<kw name="POST On Session" owner="RequestsLibrary">
+<msg time="2025-11-03T22:24:06.886268" level="INFO">POST Request : url=https://fakerestapi.azurewebsites.net/api/v1/Books 
+ path_url=/api/v1/Books 
+ headers={'User-Agent': 'python-requests/2.32.5', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive', 'Content-Length': '176', 'Content-Type': 'application/json'} 
+ body=b'{"id": "0", "title": "Invalid Book", "description": "Book with negative page count", "pageCount": "-5", "excerpt": "Automation Book", "publishDate": "2025-11-03T22:24:06.000Z"}' 
+ </msg>
+<msg time="2025-11-03T22:24:06.886367" level="INFO">POST Response : url=https://fakerestapi.azurewebsites.net/api/v1/Books 
+ status=200, reason=OK 
+ headers={'Content-Type': 'application/json; charset=utf-8; v=1.0', 'Date': 'Tue, 04 Nov 2025 01:24:06 GMT', 'Server': 'Kestrel', 'Transfer-Encoding': 'chunked', 'api-supported-versions': '1.0'} 
+ body={"id":0,"title":"Invalid Book","description":"Book with negative page count","pageCount":-5,"excerpt":"Automation Book","publishDate":"2025-11-03T22:24:06Z"} 
+ </msg>
+<msg time="2025-11-03T22:24:06.886449" level="INFO">C:\Users\Rogério\AppData\Local\Programs\Python\Python313\Lib\site-packages\urllib3\connectionpool.py:1097: InsecureRequestWarning: Unverified HTTPS request is being made to host 'fakerestapi.azurewebsites.net'. Adding certificate verification is strongly advised. See: https://urllib3.readthedocs.io/en/latest/advanced-usage.html#tls-warnings
+  warnings.warn(</msg>
+<msg time="2025-11-03T22:24:06.886968" level="INFO">${response} = &lt;Response [200]&gt;</msg>
+<var>${response}</var>
+<arg>books</arg>
+<arg>/Books</arg>
+<arg>json=${payload}</arg>
+<doc>Sends a POST request on a previously created HTTP Session.</doc>
+<status status="PASS" start="2025-11-03T22:24:06.665945" elapsed="0.221094"/>
+</kw>
+<kw name="Log To Console" owner="BuiltIn">
+<arg>\n[INFO] Resposta criação inválida: status=${response.status_code}, body=${response.content}</arg>
+<doc>Logs the given message to the console.</doc>
+<status status="PASS" start="2025-11-03T22:24:06.887245" elapsed="0.001684"/>
+</kw>
+<kw name="Should Be Equal As Integers" owner="BuiltIn">
+<msg time="2025-11-03T22:24:06.890136" level="INFO">Argument types are:
+&lt;class 'int'&gt;
+&lt;class 'str'&gt;</msg>
+<arg>${response.status_code}</arg>
+<arg>200</arg>
+<doc>Fails if objects are unequal after converting them to integers.</doc>
+<status status="PASS" start="2025-11-03T22:24:06.889209" elapsed="0.001070"/>
+</kw>
+<doc>Envia um payload inválido e verifica comportamento atual da API.</doc>
+<status status="PASS" start="2025-11-03T22:24:06.661191" elapsed="0.229341"/>
+</test>
+<kw name="Delete All Sessions" owner="RequestsLibrary" type="TEARDOWN">
+<msg time="2025-11-03T22:24:06.891992" level="INFO">Deleting All Sessions</msg>
+<doc>Removes all the session objects</doc>
+<status status="PASS" start="2025-11-03T22:24:06.891735" elapsed="0.000455"/>
+</kw>
+<doc>Teste Técnico QA Sênior - Parte 3 (Back-end)
+Suite de testes de API usando Fakerestapi (Books).
+São cobertos cenários de criação, consulta, atualização,
+deleção de ID inexistente e envio de payload inválido.</doc>
+<status status="PASS" start="2025-11-03T22:24:04.335290" elapsed="2.557002"/>
+</suite>
+<statistics>
+<total>
+<stat pass="5" fail="0" skip="0">All Tests</stat>
+</total>
+<tag>
+</tag>
+<suite>
+<stat name="Books Api Tests" id="s1" pass="5" fail="0" skip="0">Books Api Tests</stat>
+</suite>
+</statistics>
+<errors>
+<msg time="2025-11-03T22:24:05.548859" level="WARN">Keyword 'RequestsLibrary.To Json' is deprecated. Please use ${resp.json()} instead. Have a look at the improved HTML output as pretty printing replacement.</msg>
+<msg time="2025-11-03T22:24:05.861222" level="WARN">Keyword 'RequestsLibrary.To Json' is deprecated. Please use ${resp.json()} instead. Have a look at the improved HTML output as pretty printing replacement.</msg>
+<msg time="2025-11-03T22:24:06.168614" level="WARN">Keyword 'RequestsLibrary.To Json' is deprecated. Please use ${resp.json()} instead. Have a look at the improved HTML output as pretty printing replacement.</msg>
+<msg time="2025-11-03T22:24:06.418793" level="WARN">Keyword 'RequestsLibrary.To Json' is deprecated. Please use ${resp.json()} instead. Have a look at the improved HTML output as pretty printing replacement.</msg>
+</errors>
+</robot>
